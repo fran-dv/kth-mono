@@ -22,10 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
         
-      - name: Validate cosmetic changes
+      - name: ✅ Validate cosmetic changes
         run: |
           echo "✅ Validating cosmetic changes only..."
           echo "Branch: ${{ github.head_ref }}"
@@ -83,7 +83,7 @@ jobs:
           
           echo "✅ All changes are cosmetic. Skipping heavy CI pipeline."
           
-      - name: Run basic linting on markdown
+      - name: 📝 Run basic linting on markdown
         if: success()
         run: |
           echo "🔍 Running basic markdown validation..."
@@ -114,7 +114,7 @@ jobs:
     needs: cosmetic-check
     
     steps:
-      - name: Auto-approve cosmetic changes
+      - name: 👍 Auto-approve cosmetic changes
         if: contains(fromJSON('["dependabot[bot]", "github-actions[bot]"]'), github.actor) ||
             github.actor == github.repository_owner
         uses: juliangruber/approve-pull-request-action@v2

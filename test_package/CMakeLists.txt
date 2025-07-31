@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(test_kth_targets)
+project(test_kth_package)
 
 find_package(kth REQUIRED)
 
@@ -20,7 +20,7 @@ target_link_libraries(test_meta
 )
 
 # Print available targets for verification
-message(STATUS "Testing KTH targets:")
+message(STATUS "Testing KTH package targets:")
 if(TARGET kth::infrastructure)
     message(STATUS "  ✓ kth::infrastructure - Available")
 endif()

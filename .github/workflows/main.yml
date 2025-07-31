@@ -45,7 +45,7 @@ jobs:
     outputs:
       permitted: ${{ steps.check.outputs.permitted }}
     steps:
-      - name: Debug Check Job
+      - name: 🐛 Debug Check Job
         run: |
           echo "Event name: ${{ github.event_name }}"
           echo "Ref: ${{ github.ref }}"
@@ -64,7 +64,7 @@ jobs:
     outputs:
       permitted: ${{ steps.check.outputs.permitted }}
     steps:
-      - name: Debug Check Job
+      - name: 🐛 Debug Check Job
         run: |
           echo "Event name: ${{ github.event_name }}"
           echo "Ref: ${{ github.ref }}"
@@ -141,7 +141,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Debug Info
+      - name: 🐛 Debug Info
         run: |
           echo "Event name: ${{ github.event_name }}"
           echo "Ref: ${{ github.ref }}"
@@ -150,7 +150,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
-      - name: Generate Job Matrix
+      - name: 🧮 Generate Job Matrix
         id: set-matrix
         run: |
           MATRIX=$(cat ./ci_utils/.github/matrix.json)
@@ -239,7 +239,7 @@ jobs:
       enable-asan: false   # Always enabled (sanitizer builds)
       enable-ubsan: false  # Always enabled (sanitizer builds) 
       enable-tsan: false   # Always enabled (sanitizer builds)
-      skip-tests: true
+      skip-tests: false
     secrets:
       CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
       CONAN_PASSWORD: ${{ secrets.CONAN_3_PASSWORD }}
@@ -263,7 +263,7 @@ jobs:
       enable-asan: false  # Disabled due to secp256k1 inline assembly conflicts
       enable-ubsan: false # Disabled due to secp256k1 inline assembly conflicts
       enable-tsan: false  # Disabled due to secp256k1 inline assembly conflicts
-      skip-tests: true
+      skip-tests: false
     secrets:
       CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
       CONAN_PASSWORD: ${{ secrets.CONAN_3_PASSWORD }}
@@ -290,7 +290,7 @@ jobs:
       enable-asan: false  # Disabled for clean release builds  
       enable-ubsan: false # Disabled for clean release builds
       enable-tsan: false  # Disabled for clean release builds
-      skip-tests: true
+      skip-tests: false  # Skip tests for clean release builds
     secrets:
       CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
       CONAN_PASSWORD: ${{ secrets.CONAN_3_PASSWORD }}
@@ -316,7 +316,7 @@ jobs:
       enable-asan: false  # Disabled for clean release builds
       enable-ubsan: false # Disabled for clean release builds  
       enable-tsan: false  # Disabled for clean release builds
-      skip-tests: true
+      skip-tests: false
     secrets:
       CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
       CONAN_PASSWORD: ${{ secrets.CONAN_3_PASSWORD }}
@@ -334,25 +334,25 @@ jobs:
 
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
           submodules: true
 
-      - name: Install clang-format
+      - name: 🔧 Install clang-format
         if: env.SKIP_CLANG_FORMAT != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-format-15
           clang-format-15 --version
 
-      - name: Clang-format check disabled
+      - name: ⏭️ Clang-format check disabled
         if: env.SKIP_CLANG_FORMAT == 'true'
         run: |
           echo "⚠️ Clang-format check is currently disabled"
           echo "Set SKIP_CLANG_FORMAT=false in workflow env to enable"
 
-      - name: Check code formatting
+      - name: 🎨 Check code formatting
         if: env.SKIP_CLANG_FORMAT != 'true'
         shell: bash
         run: |
@@ -402,20 +402,20 @@ jobs:
             echo "✅ All checked files are properly formatted!"
           fi
 
-      - name: Install clang-tidy
+      - name: 🔧 Install clang-tidy
         if: env.SKIP_CLANG_TIDY != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tidy-15
           clang-tidy-15 --version
 
-      - name: Clang-tidy analysis disabled
+      - name: ⏭️ Clang-tidy analysis disabled
         if: env.SKIP_CLANG_TIDY == 'true'
         run: |
           echo "⚠️ Clang-tidy analysis is currently disabled"
           echo "Set SKIP_CLANG_TIDY=false in workflow env to enable"
 
-      - name: Run clang-tidy analysis
+      - name: 🔍 Run clang-tidy analysis
         if: env.SKIP_CLANG_TIDY != 'true'
         shell: bash
         run: |
@@ -464,20 +464,20 @@ jobs:
             echo "✅ No issues found in analyzed files!"
           fi
 
-      - name: Install cppcheck
+      - name: 🔧 Install cppcheck
         if: env.SKIP_CPPCHECK != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y cppcheck
           cppcheck --version
 
-      - name: Cppcheck analysis disabled
+      - name: ⏭️ Cppcheck analysis disabled
         if: env.SKIP_CPPCHECK == 'true'
         run: |
           echo "⚠️ Cppcheck analysis is currently disabled"
           echo "Set SKIP_CPPCHECK=false in workflow env to enable"
 
-      - name: Run cppcheck analysis
+      - name: 🔍 Run cppcheck analysis
         if: env.SKIP_CPPCHECK != 'true'
         shell: bash
         run: |
@@ -543,20 +543,20 @@ jobs:
           # Cleanup
           rm -f "$cppcheck_output"
 
-      - name: Install include-what-you-use
+      - name: 🔧 Install include-what-you-use
         if: env.SKIP_IWYU != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y iwyu
           include-what-you-use --version || echo "IWYU installed successfully"
 
-      - name: IWYU analysis disabled
+      - name: ⏭️ IWYU analysis disabled
         if: env.SKIP_IWYU == 'true'
         run: |
           echo "⚠️ Include-what-you-use analysis is currently disabled"
           echo "Set SKIP_IWYU=false in workflow env to enable"
 
-      - name: Run include-what-you-use analysis
+      - name: 🔍 Run include-what-you-use analysis
         if: env.SKIP_IWYU != 'true'
         shell: bash
         run: |
