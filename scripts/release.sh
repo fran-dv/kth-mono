@@ -115,14 +115,11 @@ echo "Updating README files to version: ${VERSION}"
 # Track if we made any changes
 CHANGES_MADE=false
 
-# Commit README updates
+# Check for README changes
 echo "Checking for README changes..."
 if git status --porcelain | grep -q "^ M\|^M\|^ A\|^A"; then
-    echo "📝 Changes detected in working directory:"
+    echo "📝 Changes detected in working directory"
     git status --short
-    echo "Committing README version updates..."
-    git add .
-    git commit -m "docs: update README versions to ${VERSION}"
     CHANGES_MADE=true
 else
     echo "📝 No changes detected - README files likely already have version ${VERSION}"
@@ -132,29 +129,32 @@ rm -rf build
 rm -rf conan.lock
 rm -rf conan-wasm.lock
 
+echo "🔒 Creating conan-wasm.lock for version ${VERSION}..."
+conan lock create conanfile.py --version="${VERSION}" --update -pr ems2
+mv conan.lock conan-wasm.lock
+
 echo "🔒 Creating conan.lock for version ${VERSION}..."
 conan lock create conanfile.py --version="${VERSION}" --update
 
-echo "🔒 Creating conan-wasm.lock for version ${VERSION}..."
-conan lock create conanfile.py --version="${VERSION}" --lockfile=conan-wasm.lock --update -pr ems2
-
+# Check if lockfiles were created/changed
 echo "🔒 Checking lockfile changes..."
 if git status --porcelain | grep -q "conan.lock\|conan-wasm.lock"; then
-    echo "📝 Lockfiles were updated, committing..."
-    git add conan.lock conan-wasm.lock
-    git commit -m "release: update lockfiles for version ${VERSION}"
+    echo "📝 Lockfiles were updated"
     CHANGES_MADE=true
 else
     echo "📝 No lockfile changes detected"
-    # Add anyway in case they're new files
-    git add conan.lock conan-wasm.lock 2>/dev/null || true
-    if git diff --cached --quiet; then
-        echo "📝 No changes to commit for lockfiles"
-    else
-        echo "📝 Committing new lockfiles..."
-        git commit -m "release: update lockfiles for version ${VERSION}"
-        CHANGES_MADE=true
-    fi
+fi
+
+# Commit everything in a single commit
+if [ "$CHANGES_MADE" = true ]; then
+    echo "📝 Creating single commit with all changes..."
+    git add .
+    git commit -m "release: prepare version ${VERSION}
+
+- Update README versions to ${VERSION}
+- Generate conan.lock and conan-wasm.lock for ${VERSION}"
+else
+    echo "📝 No changes to commit"
 fi
 git push origin "release/${VERSION}"
 
@@ -208,7 +208,15 @@ fi
 
 echo "Waiting for the build to finish for branch: release/${VERSION}"
 echo "⏰ Recording current time to filter only new workflow runs..."
-RELEASE_START_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+# Subtract 10 seconds to account for the time it takes to push and create the workflow
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS date command
+    RELEASE_START_TIME=$(date -u -v-10S +"%Y-%m-%dT%H:%M:%SZ")
+else
+    # Linux date command
+    RELEASE_START_TIME=$(date -u -d '10 seconds ago' +"%Y-%m-%dT%H:%M:%SZ")
+fi
+echo "Filtering workflow runs created after: ${RELEASE_START_TIME}"
 sleep 5  # Small delay to ensure GitHub has registered the push
 
 MAX_WAIT_TIME=7200  # 2 hours
@@ -304,90 +312,25 @@ if [ $ELAPSED -ge $MAX_WAIT_TIME ]; then
     exit 1
 fi
 
-# squash merge the PR, do not delete the branch
-gh pr merge --squash --auto "release/${VERSION}"
-
-# switch to master and pull latest changes
-git checkout master
-git pull origin master
-
-# Step 1: Create temporary release to generate notes
-echo "Creating temporary release to generate notes..."
-TEMP_TAG="temp-v${VERSION}"
-git tag -a "${TEMP_TAG}" -m "Temporary tag for release notes generation"
-git push origin "${TEMP_TAG}"
-
-gh release create "${TEMP_TAG}" \
-    --title "temp-v${VERSION}" \
-    --generate-notes \
-    --prerelease
-
-# Step 2: Extract the generated notes
-echo "Extracting generated release notes..."
-RELEASE_NOTES=$(gh release view "${TEMP_TAG}" --json body -q '.body')
-
-if [ -z "$RELEASE_NOTES" ]; then
-    echo "❌ Failed to extract release notes"
-    exit 1
-fi
-
-# Replace temporary tag references with final tag in the release notes
-echo "Fixing references in release notes..."
-RELEASE_NOTES=$(echo "$RELEASE_NOTES" | sed "s/temp-v${VERSION}/v${VERSION}/g")
-
-# Step 3: Update local release notes file
-echo "Updating local release notes file..."
-NOTES_FILE="doc/release-notes/release-notes.md"
-
-# Create a backup
-cp "$NOTES_FILE" "${NOTES_FILE}.backup"
-
-# Prepare the new release notes entry
-NEW_ENTRY="# version ${VERSION}
-
-You can install Knuth node version v${VERSION} [using these instructions](https://kth.cash/#download).
-
-${RELEASE_NOTES}
-
-"
-
-# Add the new entry at the top of the file (after any existing content)
-{
-    echo "$NEW_ENTRY"
-    cat "$NOTES_FILE"
-} > "${NOTES_FILE}.tmp" && mv "${NOTES_FILE}.tmp" "$NOTES_FILE"
-
-echo "✅ Updated release notes file"
-
-# Step 4: Commit the updated release notes
-git add "$NOTES_FILE"
-git commit -m "docs: update release notes for v${VERSION}"
-git push origin master
-
-# Step 5: Clean up temporary release and tag
-echo "Cleaning up temporary release..."
-gh release delete "${TEMP_TAG}" --yes
-git tag -d "${TEMP_TAG}"
-git push origin --delete "${TEMP_TAG}"
-
-# Step 6: Create the real release with auto-generated notes
-echo "Creating final release v${VERSION}..."
-git tag -a "v${VERSION}" -m "Release version ${VERSION}"
-git push origin "v${VERSION}"
-
-# Create the final release with auto-generated notes (not copied text)
-# This ensures GitHub generates the correct "Full Changelog" link
-gh release create "v${VERSION}" \
-    --title "v${VERSION}" \
-    --generate-notes \
-    --latest
-
-echo "✅ Release v${VERSION} created successfully!"
-echo "✅ Release notes have been updated in $NOTES_FILE"
-
-# remove the release branch locally and remotely
-git push origin --delete "release/${VERSION}"
-git branch -D "release/${VERSION}"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ CI build completed successfully!"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "📦 Pre-release steps completed:"
+echo "  ✓ Release branch created: release/${VERSION}"
+echo "  ✓ PR created and ready for merge"
+echo "  ✓ CI builds passed"
+echo ""
+echo "🎯 Next step: Run the post-release script to complete the release:"
+echo "   ./scripts/post-release.sh ${VERSION}"
+echo ""
+echo "The post-release script will:"
+echo "  - Merge the release PR"
+echo "  - Generate and commit release notes"
+echo "  - Create the release tag and GitHub release"
+echo "  - Clean up the release branch"
+echo ""
 
 # Clean up ssh-agent if we started it
 if [ "$SSH_AGENT_STARTED" = true ]; then
