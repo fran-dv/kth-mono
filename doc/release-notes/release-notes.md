@@ -1,3 +1,27 @@
+# version 0.71.0
+
+You can install Knuth node version v0.71.0 [using these instructions](https://kth.cash/#download).
+
+## What's Changed
+* feat: add automated Conan dependency update checker by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/79
+* chore: update Catch2 from 3.9.0 to 3.11.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/80
+* chore: update CTRE from 3.8.1 to 3.10.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/81
+* chore: update expected-lite from 0.8.0 to 0.9.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/82
+* chore: update fmt to 12.0.0 and spdlog to 1.16.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/83
+* chore: update OpenSSL from 3.4.1 to 3.6.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/84
+* fix: YAML syntax error in GitHub Actions workflow by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/91
+* ci: add WebAssembly build workflow by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/92
+* ci: update compiler versions to GCC 15 and apple-clang 17 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/93
+* fix: detect and handle tool_requires vs requires in dependency builds by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/94
+* improve: enhance release script with validation and WASM lockfile support by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/95
+* fix: improve release scripts and remove conan graph explain by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/97
+* fix: add required os field to empty matrix configuration by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/98
+* release: 0.71.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/99
+
+
+**Full Changelog**: https://github.com/k-nuth/kth-mono/compare/v0.70.0...v0.71.0
+
+
 # version 0.70.0
 
 You can install Knuth node version v0.70.0 [using these instructions](https://kth.cash/#download).
