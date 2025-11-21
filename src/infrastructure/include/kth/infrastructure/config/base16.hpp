@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
+#include <string_view>
 
 #include <kth/infrastructure/define.hpp>
 #include <kth/infrastructure/utility/data.hpp>
@@ -28,7 +29,7 @@ struct KI_API base16 {
     base16& operator=(base16&&) = default;
 
     explicit
-    base16(std::string const& hexcode);
+    base16(std::string_view hexcode);
 
     explicit
     base16(data_chunk const& value);

@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <string_view>
 
 #include <kth/infrastructure/define.hpp>
 #include <kth/infrastructure/math/hash.hpp>
@@ -22,7 +23,7 @@ struct KI_API hash160 {
     hash160(hash160 const& x) = default;
 
     explicit
-    hash160(std::string const& hexcode);
+    hash160(std::string_view hexcode);
 
     explicit
     hash160(short_hash const& value);

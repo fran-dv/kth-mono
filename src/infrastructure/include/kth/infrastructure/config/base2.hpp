@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <iostream>
 #include <string>
+#include <string_view>
 
 #include <kth/infrastructure/define.hpp>
 #include <kth/infrastructure/utility/binary.hpp>
@@ -30,7 +31,7 @@ struct KI_API base2 {
      * @param[in]  bin  The value to initialize with.
      */
     explicit
-    base2(std::string const& binary);
+    base2(std::string_view binary);
 
     /**
      * @param[in]  value  The value to initialize with.
