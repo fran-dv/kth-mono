@@ -1,3 +1,17 @@
+# version 0.72.0
+
+You can install Knuth node version v0.72.0 [using these instructions](https://kth.cash/#download).
+
+## What's Changed
+* fix: eliminate circular dependency in executor.hpp by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/105
+* fix: use fmt library directly instead of spdlog bundled version by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/106
+* refactor: standardize and fix API macros system by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/107
+* release: 0.72.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/108
+
+
+**Full Changelog**: https://github.com/k-nuth/kth-mono/compare/v0.71.0...v0.72.0
+
+
 # version 0.71.0
 
 You can install Knuth node version v0.71.0 [using these instructions](https://kth.cash/#download).
