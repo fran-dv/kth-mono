@@ -1,3 +1,32 @@
+# version 0.73.0
+
+You can install Knuth node version v0.73.0 [using these instructions](https://kth.cash/#download).
+
+## What's Changed
+* chore: remove temporary release notes backup file by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/109
+* refactor: convert public-first classes to structs by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/110
+* refactor: replace std::cout/cerr with std::print/println (C++23) by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/111
+* refactor: replace fmt::print with std::println by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/112
+* refactor: simplify logging to spdlog-only by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/113
+* refactor: replace std::cout with std::print/std::println by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/114
+* refactor: migrate to Boost 1.89.0 with ASIO breaking changes by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/115
+* refactor: modernize string parameters to use std::string_view by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/85
+* refactor: apply Rule of Zero to config classes by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/86
+* refactor: modernize binary class with C++20/23 features by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/87
+* refactor: replace custom array_slice with std::span by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/88
+* fix: update network macros to use std::bind_front by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/116
+* refactor: simplify network binding macros by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/117
+* chore: add rebuild.sh and optimize build.sh for incremental builds by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/119
+* fix: enable WebAssembly builds for all branches by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/118
+* fix: revert to std::bind to support placeholders by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/120
+* perf: optimize base encoding with SIMD and fix WebAssembly builds by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/89
+* refactor: migrate from nonstd::expected to std::expected (C++23) by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/90
+* release: 0.73.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/121
+
+
+**Full Changelog**: https://github.com/k-nuth/kth-mono/compare/v0.72.0...v0.73.0
+
+
 # version 0.72.0
 
 You can install Knuth node version v0.72.0 [using these instructions](https://kth.cash/#download).
