@@ -1,3 +1,31 @@
+# version 0.74.0
+
+You can install Knuth node version v0.74.0 [using these instructions](https://kth.cash/#download).
+
+## What's Changed
+* fix: update BCH network seeds by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/122
+* refactor: modernize base encoding API with std::expected by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/123
+* refactor: adapt domain module to new base encoding API by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/124
+* test: update infrastructure tests for new base encoding API by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/125
+* test: update domain tests for new base encoding API by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/126
+* test: update remaining modules for new base encoding API by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/127
+* refactor: add _hash UDL and migrate from hash_literal() by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/128
+* test: add compile-time validation tests for UDL operators by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/129
+* test: improve transaction tests and add point::null() factory by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/130
+* cleanup: remove dead test_new references and unused includes by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/131
+* refactor: remove istream_reader in favor of byte_reader by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/132
+* cleanup: remove dead container_source.hpp includes by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/133
+* cleanup: remove unused container_source.hpp by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/134
+* feature: enable network tests by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/135
+* refactor: modernize endian functions using C++23 features by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/136
+* refactor: rename data_slice to byte_span by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/137
+* refactor: apply east const style by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/138
+* release: 0.74.0 by @fpelliccioni in https://github.com/k-nuth/kth-mono/pull/139
+
+
+**Full Changelog**: https://github.com/k-nuth/kth-mono/compare/v0.73.0...v0.74.0
+
+
 # version 0.73.0
 
 You can install Knuth node version v0.73.0 [using these instructions](https://kth.cash/#download).
